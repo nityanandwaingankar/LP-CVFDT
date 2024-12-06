@@ -252,49 +252,48 @@ class StreamingDecisionTree:
 import numpy as np
 
 # Simulated streaming data (features and labels)
-streaming_data = [
-    (np.array([2.0, 3.0]), 0),
-    (np.array([1.0, 2.5]), 0),
-    (np.array([3.5, 1.0]), 1),
-    (np.array([3.0, 2.0]), 1),
-    (np.array([1.5, 2.5]), 0),
-    (np.array([2.0, 3.5]), 0),
-    (np.array([0.0, 2.5]), 0),
-    (np.array([3.5, 1.5]), 1),
-    (np.array([3.0, 2.5]), 1),
-    (np.array([1.5, 3.0]), 0),
-    (np.array([1.5, 3.0]), 0),
-    (np.array([0.5, 2.5]), 0),
-    (np.array([3.0, 1.0]), 1),
-    (np.array([2.5, 2.0]), 1),
-    (np.array([1.0, 2.5]), 0),
-]
+# streaming_data = [
+#     (np.array([2.0, 3.0]), 0),
+#     (np.array([1.0, 2.5]), 0),
+#     (np.array([3.5, 1.0]), 1),
+#     (np.array([3.0, 2.0]), 1),
+#     (np.array([1.5, 2.5]), 0),
+#     (np.array([2.0, 3.5]), 0),
+#     (np.array([0.0, 2.5]), 0),
+#     (np.array([3.5, 1.5]), 1),
+#     (np.array([3.0, 2.5]), 1),
+#     (np.array([1.5, 3.0]), 0),
+#     (np.array([1.5, 3.0]), 0),
+#     (np.array([0.5, 2.5]), 0),
+#     (np.array([3.0, 1.0]), 1),
+#     (np.array([2.5, 2.0]), 1),
+#     (np.array([1.0, 2.5]), 0),
+# ]
 
 # Initialize the StreamingDecisionTree
 tree = StreamingDecisionTree(min_samples_split=2, max_depth=3, grace_period=2, n_features=2)
 
 # Simulate streaming data processing
-print("Updating tree with streaming data...\n")
-for i, (X, y) in enumerate(streaming_data):
-    print(f"Data Point {i+1}: X={X}, y={y}")
-    tree.update(X, y)
+# print("Updating tree with streaming data...\n")
+# for i, (X, y) in enumerate(streaming_data):
+#     print(f"Data Point {i+1}: X={X}, y={y}")
+#     tree.update(X, y)
 
-# tree.print_tree()
-# Predict on new data points
-test_data = [
-    np.array([2.5, 3.0]),
-    np.array([3.5, 1.5]),
-    np.array([1.0, 2.0]),
-]
+# # tree.print_tree()
+# # Predict on new data points
+# test_data = [
+#     np.array([2.5, 3.0]),
+#     np.array([3.5, 1.5]),
+#     np.array([1.0, 2.0]),
+# ]
 
-print("\nMaking predictions on new data:")
-for i, X in enumerate(test_data):
-    prediction = tree.predict(X)
-    print(f"Test Point {i+1}: X={X} => Prediction: {prediction}")
+# print("\nMaking predictions on new data:")
+# for i, X in enumerate(test_data):
+#     prediction = tree.predict(X)
+#     print(f"Test Point {i+1}: X={X} => Prediction: {prediction}")
 
 
 ####### MONKS DATA SET ########
-
 from ucimlrepo import fetch_ucirepo 
   
 # fetch dataset 
@@ -303,33 +302,40 @@ monk_s_problems = fetch_ucirepo(id=70)
 # data (as pandas dataframes) 
 X = monk_s_problems.data.features 
 Y = monk_s_problems.data.targets 
-  
-# metadata 
-# print(monk_s_problems.metadata) 
-  
-# variable information 
-# print(monk_s_problems.variables) 
-# print("X is :")
-# print(type(X))
 
-# # print("y is :") 
-# print((Y))
+import numpy as np
 
-
+print("Updating tree with streaming data...\n")
+# Initialize arrays
+new_X = np.empty((0, X.shape[1]))  # Initialize empty 2D array with correct column size
+new_Y = np.array([])  # Initialize empty 1D array
 tree = StreamingDecisionTree(min_samples_split=2, max_depth=3, grace_period=2, n_features=2)
 
-# Simulate streaming data processing
+# Process X
+for x1, x2 in X.iterrows():
+    new_X = np.vstack([new_X, x2.to_numpy()])  # Update new_X with rows
+    print(f"Data Point type: {type(x2.to_numpy())}")
+    print(f"Data Point: {x2.to_numpy()}")
+    print(f"new_X:\n{new_X}\n")
+
+# Process Y
+for y1, y2 in Y.iterrows():
+    new_Y = np.append(new_Y, y2[0])  # Append values to new_Y
+    print(f"Data Point type: {type(y2[0])}")
+    print(f"Data Point: {y2[0]}")
+    print(f"new_Y:\n{new_Y}\n")
+###### COLLECTED THE DATA ###############\
+
+## START TRAINING THE TREE ##############\
+
 print("Updating tree with streaming data...\n")
-for x,y in zip(X,Y):
-    # print(f"Data Point {i+1}: X={X}, y={y}")
-    tree.update(x, y)
-    print("updated ateleast once")
 
-tree.print_tree()
+for i in range(len(new_X)):
+    tree.update(new_X[i], new_Y[i])
 
 
+#STARTE PREDICTION ###############
+for i in range(len(new_X)):
+    prediction = tree.predict(new_X[i])
+    print(f"Data Point {i+1}: X={new_X[i]} => Prediction: {new_Y[i]}")
 
-print("\nMaking predictions on new data:")
-for x,y in zip(X,Y):
-    prediction = tree.predict(x)
-    print(f"Test Point {+1}: X={x} => Prediction: {prediction}")    

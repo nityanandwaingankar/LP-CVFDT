@@ -309,7 +309,14 @@ monk_s_problems = fetch_ucirepo(id=70)
 # data (as pandas dataframes) 
 X = monk_s_problems.data.features 
 Y = monk_s_problems.data.targets 
+<<<<<<< HEAD
 
+=======
+
+import numpy as np
+
+print("Updating tree with streaming data...\n")
+>>>>>>> e26d062f9114c867c8aaf82375d8765c2feb1d23
 # Initialize arrays
 new_X = np.empty((0, X.shape[1]))  # Initialize empty 2D array with correct column size
 new_Y = np.array([])  # Initialize empty 1D array
@@ -328,11 +335,16 @@ for y1, y2 in Y.iterrows():
     print(f"Data Point type: {type(y2[0])}")
     print(f"Data Point: {y2[0]}")
     print(f"new_Y:\n{new_Y}\n")
+<<<<<<< HEAD
 
+=======
+###### COLLECTED THE DATA ###############\
+>>>>>>> e26d062f9114c867c8aaf82375d8765c2feb1d23
 
 ## START TRAINING THE TREE ##############\
 
 print("Updating tree with streaming data...\n")
+<<<<<<< HEAD
 
 for i in range(len(new_X)):
     tree.update(new_X[i], new_Y[i])
@@ -342,6 +354,18 @@ for i in range(len(new_X)):
 for i in range(len(new_X)):
     prediction = tree.predict(new_X[i])
     print(f"Data Point {i+1}: X={new_X[i]} => Prediction: {new_Y[i]}")
+=======
+>>>>>>> e26d062f9114c867c8aaf82375d8765c2feb1d23
 
-tree.print_tree()
+for i in range(len(new_X)):
+    tree.update(new_X[i], new_Y[i])
 
+<<<<<<< HEAD
+=======
+
+#STARTE PREDICTION ###############
+for i in range(len(new_X)):
+    prediction = tree.predict(new_X[i])
+    print(f"Data Point {i+1}: X={new_X[i]} => Prediction: {new_Y[i]}")
+
+>>>>>>> e26d062f9114c867c8aaf82375d8765c2feb1d23

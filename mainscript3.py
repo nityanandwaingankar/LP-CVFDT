@@ -309,18 +309,14 @@ monk_s_problems = fetch_ucirepo(id=70)
 # data (as pandas dataframes) 
 X = monk_s_problems.data.features 
 Y = monk_s_problems.data.targets 
-<<<<<<< HEAD
-
-=======
 
 import numpy as np
 
 print("Updating tree with streaming data...\n")
->>>>>>> e26d062f9114c867c8aaf82375d8765c2feb1d23
 # Initialize arrays
 new_X = np.empty((0, X.shape[1]))  # Initialize empty 2D array with correct column size
 new_Y = np.array([])  # Initialize empty 1D array
-tree = StreamingDecisionTree(min_samples_split=2, max_depth=3, grace_period=2, n_features=2)
+tree = StreamingDecisionTree(min_samples_split=34, max_depth=1000, grace_period=6, n_features=6)
 
 # Process X
 for x1, x2 in X.iterrows():
@@ -335,37 +331,91 @@ for y1, y2 in Y.iterrows():
     print(f"Data Point type: {type(y2[0])}")
     print(f"Data Point: {y2[0]}")
     print(f"new_Y:\n{new_Y}\n")
-<<<<<<< HEAD
-
-=======
 ###### COLLECTED THE DATA ###############\
->>>>>>> e26d062f9114c867c8aaf82375d8765c2feb1d23
+
+from sklearn.model_selection import train_test_split
+
+# Split the data into training and testing sets
+X_train, X_test, Y_train, Y_test = train_test_split(
+    new_X, new_Y, test_size=0.3, random_state=42, stratify=Y
+)
+
+# Print the shapes of the resulting datasets
+# print(f"X_train shape: {X_train.shape}")
+# print(f"X_test shape: {X_test.shape}")
+# print(f"Y_train shape: {Y_train.shape}")
+# print(f"Y_test shape: {Y_test.shape}")
 
 ## START TRAINING THE TREE ##############\
 
-print("Updating tree with streaming data...\n")
-<<<<<<< HEAD
+# print("Updating tree with streaming data...\n")
 
-for i in range(len(new_X)):
-    tree.update(new_X[i], new_Y[i])
+# for i in range(len(X_train)):
+#     tree.update(X_train[i], Y_train[i])
 
 
-#STARTE PREDICTION ###############
-for i in range(len(new_X)):
-    prediction = tree.predict(new_X[i])
-    print(f"Data Point {i+1}: X={new_X[i]} => Prediction: {new_Y[i]}")
-=======
->>>>>>> e26d062f9114c867c8aaf82375d8765c2feb1d23
+# #STARTE PREDICTION ###############
+# # Initialize counters
+# correct_predictions = 0
+# total_predictions = len(X_test)
 
-for i in range(len(new_X)):
-    tree.update(new_X[i], new_Y[i])
+# # Iterate over test data
+# for i in range(total_predictions):
+#     prediction = tree.predict(X_test[i])  # Get the prediction
+#     if prediction == Y_test[i]:  # Compare with the actual label
+#         correct_predictions += 1
 
-<<<<<<< HEAD
-=======
+# # Calculate accuracy
+# accuracy = correct_predictions / total_predictions
+# print(f"Accuracy: {accuracy * 100:.2f}%")
 
-#STARTE PREDICTION ###############
-for i in range(len(new_X)):
-    prediction = tree.predict(new_X[i])
-    print(f"Data Point {i+1}: X={new_X[i]} => Prediction: {new_Y[i]}")
+#################################################################
+from sklearn.model_selection import ParameterGrid
 
->>>>>>> e26d062f9114c867c8aaf82375d8765c2feb1d23
+
+# val = 
+
+param_grid = {
+    'min_samples_split': [1, 2, 5, 8, 10,15, 20, 30, 50],
+    'max_depth': [1,3,5,7, 10, 50, 100, 100 , 1000],
+    'grace_period': [2, 5, 10, 12, 15, 18, 20],
+    'n_features': [1, 2, 3, 4,5, X.shape[1]],
+}
+
+best_accuracy = 0
+best_params = None
+
+for params in ParameterGrid(param_grid):
+    tree = StreamingDecisionTree(**params)
+    # Train and evaluate the tree (use your train-test split)
+    for i in range(len(X_train)):
+        tree.update(X_train[i], Y_train[i])
+
+    correct_predictions = 0
+    total_predictions = len(X_test)
+
+    # Iterate over test data
+    for i in range(total_predictions):
+        prediction = tree.predict(X_test[i])  # Get the prediction
+        if prediction == Y_test[i]:  # Compare with the actual label
+            correct_predictions += 1
+
+    # Calculate accuracy
+    accuracy = correct_predictions / total_predictions
+    
+
+    # Calculate accuracy
+    if accuracy > best_accuracy:
+        best_accuracy = accuracy
+        best_params = params
+
+print(f"Best Parameters: {best_params}\n Best Accuracy: {best_accuracy * 100:.2f}%")
+
+
+# Best Parameters: {'grace_period': 5, 'max_depth': 5, 'min_samples_split': 1, 'n_features': 3}
+
+# Best Parameters: {'grace_period': 5, 'max_depth': 10, 'min_samples_split': 1, 'n_features': 1}
+#  Best Accuracy: 88.46%
+
+#
+

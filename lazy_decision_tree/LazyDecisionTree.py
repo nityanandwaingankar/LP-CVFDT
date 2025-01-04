@@ -1,31 +1,42 @@
 import numpy as np
 from collections import Counter
 
+
 class Node:
-    def __init__(self, feature=None, threshold=None, left=None, right=None, *, value=None):
-        self.feature = feature #`Index of feature to split on`
-        self.threshold = threshold #`Threshold value for the feature`
-        self.left = left # Left child
-        self.right = right # Right child
-        self.value = value # For leaf nodes (empty means not a leaf node)
+    def __init__(
+        self, feature=None, threshold=None, left=None, right=None, *, value=None
+    ):
+        self.feature = feature  # `Index of feature to split on`
+        self.threshold = threshold  # `Threshold value for the feature`
+        self.left = left  # Left child
+        self.right = right  # Right child
+        self.value = value  # For leaf nodes (empty means not a leaf node)
         self.stats = None  # To track statistics for streaming updates
 
     def is_leaf_node(self):
-        return self.value is not None #`Check if a node is a leaf node`
+        return self.value is not None  # `Check if a node is a leaf node`
 
 
-class StreamingDecisionTree:
-    def __init__(self, min_samples_split=2, max_depth=100, grace_period=200, n_features=None):
-        self.min_samples_split = min_samples_split # Minimum samples required to split a node
+class LazyDecisionTree:
+    def __init__(
+        self, min_samples_split=2, max_depth=100, grace_period=200, n_features=None
+    ):
+        self.min_samples_split = (
+            min_samples_split  # Minimum samples required to split a node
+        )
         self.max_depth = max_depth  # Maximum depth of the tree
-        self.n_features = n_features # Number of features to consider for splits
+        self.n_features = n_features  # Number of features to consider for splits
         self.grace_period = grace_period  # Determines when splits are considered
-        self.root = None # Root node of the tree
+        self.root = None  # Root node of the tree
         self.data_count = 0  # Keeps track of the number of seen data points
 
     def _initialize_tree(self, X_sample, y_sample):
         """Initialize the root node."""
-        self.n_features = X_sample.shape[0] if not self.n_features else min(X_sample.shape[0], self.n_features)
+        self.n_features = (
+            X_sample.shape[0]
+            if not self.n_features
+            else min(X_sample.shape[0], self.n_features)
+        )
         self.root = Node(value=self._most_common_label([y_sample]))
 
     def update(self, X, y):
@@ -77,7 +88,9 @@ class StreamingDecisionTree:
         feat_idxs = np.random.choice(len(X), self.n_features, replace=False)
 
         # Find the best split
-        best_feature, best_thresh = self._best_split(X, list(node.stats.elements()), feat_idxs)
+        best_feature, best_thresh = self._best_split(
+            X, list(node.stats.elements()), feat_idxs
+        )
 
         if best_feature is not None:
             # Create new child nodes based on the split
@@ -158,11 +171,11 @@ class StreamingDecisionTree:
         if X[node.feature] <= node.threshold:
             return self._traverse_tree(X, node.left)
         return self._traverse_tree(X, node.right)
-        
+
     def print_tree(self, node=None, depth=0):
         """
         Recursively prints the decision tree structure.
-        
+
         Args:
             node (Node): The current node to print. If None, starts from the root.
             depth (int): The current depth in the tree, used for indentation.
@@ -174,7 +187,9 @@ class StreamingDecisionTree:
 
         # Check if the current node is a leaf node
         if node.is_leaf_node():
-            print(f"{indent}Leaf: Predict={node.value}, Stats={dict(node.stats) if node.stats else {}}")
+            print(
+                f"{indent}Leaf: Predict={node.value}, Stats={dict(node.stats) if node.stats else {}}"
+            )
             return
 
         # Print current node's feature and threshold
@@ -191,7 +206,7 @@ class StreamingDecisionTree:
     def predict(self, X, node=None, depth=0, grace_period=200, delta=0.05):
         """
         Predict a label for a single data point X, with Lazy Pruning.
-        
+
         Args:
             X (array-like): The data point to predict.
             node (Node): The current node to evaluate. Defaults to root.
@@ -224,7 +239,9 @@ class StreamingDecisionTree:
 
         # Check if pruning is necessary (after grace period)
         if node.stats["sample_count"] >= grace_period:
-            misclassification_rate = node.stats["misclassification_count"] / node.stats["sample_count"]
+            misclassification_rate = (
+                node.stats["misclassification_count"] / node.stats["sample_count"]
+            )
 
             # Calculate Hoeffding Bound
             epsilon = np.sqrt(np.log(1 / delta) / (2 * node.stats["sample_count"]))
@@ -242,7 +259,18 @@ class StreamingDecisionTree:
 
         # Continue traversal based on the feature and threshold
         if X[node.feature] <= node.threshold:
-            return self.predict(X, node=node.left, depth=depth + 1, grace_period=grace_period, delta=delta)
+            return self.predict(
+                X,
+                node=node.left,
+                depth=depth + 1,
+                grace_period=grace_period,
+                delta=delta,
+            )
         else:
-            return self.predict(X, node=node.right, depth=depth + 1, grace_period=grace_period, delta=delta)
-
+            return self.predict(
+                X,
+                node=node.right,
+                depth=depth + 1,
+                grace_period=grace_period,
+                delta=delta,
+            )

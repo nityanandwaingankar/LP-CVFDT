@@ -106,7 +106,7 @@ for i in range(len(X_train)):
     if i % 100 == 0 and i > 0:
         sample = X_train[i]
         prediction = tree.predict(sample)
-        # print(f"Sample {i}: True Label={Y_train[i]}, Predicted={prediction}")
+        print(f"Sample {i}: True Label={Y_train[i]}, Predicted={prediction}")
 
 # Predict on new unseen samples
 print("\nMaking predictions on new data...")

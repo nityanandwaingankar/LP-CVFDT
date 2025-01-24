@@ -21,7 +21,7 @@ class Node:
         return self.value is not None
 
     def split(self, feature, threshold):
-        # print(f"Splitting Node {self.id} on Feature {feature} at Threshold {threshold}")
+        print(f"Splitting Node {self.id} on Feature {feature} at Threshold {threshold}")
         self.feature = feature
         self.threshold = threshold
         self.left = Node()
@@ -47,29 +47,51 @@ class SlidingVFDT:
         self.tree = Node()  # Initialize with a root node
         self.sliding_window = deque(maxlen=window_size)
 
+    # def predict(self, X):
+    #     """
+    #     Predict the label for a single instance.
+    #     :param X: Feature array.
+    #     :return: Predicted label.
+    #     """
+    #     current_node = self.tree
+    #     while not current_node.is_leaf():
+    #         feature = current_node.feature
+    #         threshold = current_node.threshold
+    #         if feature is None or threshold is None:
+    #             break  # In case of incomplete split setup
+    #         current_node = (
+    #             current_node.left if X[feature] <= threshold else current_node.right
+    #         )
+    #     # Return the most frequent label if statistics are available
+    #     if current_node.stats["class_counts"]:
+    #         return max(
+    #             current_node.stats["class_counts"],
+    #             key=current_node.stats["class_counts"].get,
+    #         )
+    #     else:
+    #         return None  # No prediction if stats are empty
     def predict(self, X):
-        """
-        Predict the label for a single instance.
-        :param X: Feature array.
-        :return: Predicted label.
-        """
         current_node = self.tree
+        path = []
         while not current_node.is_leaf():
+            path.append(
+                f"Node {current_node.id}: Feature {current_node.feature}, Threshold {current_node.threshold}"
+            )
             feature = current_node.feature
             threshold = current_node.threshold
             if feature is None or threshold is None:
-                break  # In case of incomplete split setup
+                break
             current_node = (
                 current_node.left if X[feature] <= threshold else current_node.right
             )
-        # Return the most frequent label if statistics are available
+        print(f"Prediction Path: {' -> '.join(path)}")
         if current_node.stats["class_counts"]:
             return max(
                 current_node.stats["class_counts"],
                 key=current_node.stats["class_counts"].get,
             )
         else:
-            return None  # No prediction if stats are empty
+            return None
 
     def hoeffding_bound(self, n):
         """
@@ -100,7 +122,7 @@ class SlidingVFDT:
 
         # Update node statistics with sliding window data
         for X, y in self.sliding_window:
-            current_node = self.tree
+            current_node = self.tree  # will always pick root node
             while not current_node.is_leaf():
                 feature = current_node.feature
                 threshold = current_node.threshold
@@ -186,7 +208,7 @@ class SlidingVFDT:
         for feature in range(len(self.sliding_window[0][0])):  # Number of features
             thresholds = np.unique(
                 [sample[feature] for sample, _ in self.sliding_window]
-            )
+            )  # "sample, _ " is "X, y"
             for threshold in thresholds:
                 # Split samples based on the threshold
                 left_classes = {}
@@ -219,8 +241,25 @@ class SlidingVFDT:
                     best_gini = weighted_gini
                     best_feature = feature
                     best_threshold = threshold
+        print(
+            f"Evaluating Feature {feature}, Threshold {threshold}, Gini: {weighted_gini}"
+        )
 
         return best_feature, best_threshold
+
+    def print_tree(self, node, depth=0):
+        prefix = "  " * depth
+        if node.is_leaf():
+            print(f"{prefix}Leaf Node: Value={node.value}, Stats={node.stats}")
+        else:
+            print(
+                f"{prefix}Node ID: {node.id}, Feature={node.feature}, Threshold={node.threshold}"
+            )
+            self.print_tree(node.left, depth + 1)
+            self.print_tree(node.right, depth + 1)
+
+    # Use this after training
+    # print_tree(self.tree)
 
 
 ###### NOte TO SELF

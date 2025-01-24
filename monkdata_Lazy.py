@@ -118,6 +118,8 @@ for i, sample in enumerate(X_test):
         f"Sample {i}: Features={sample}, Predicted Label={prediction} : True Label={Y_test[i]}"
     )
 
-# Leaf: Predict=0.0, Stats={np.float64(0.0): 151, np.float64(1.0): 151}
-# Best Parameters: {'grace_period': 3, 'max_depth': 946, 'min_samples_split': 1, 'n_features': 4}
-#  Best Accuracy: 96.92%
+# Leaf: Predict=0.0, Stats={np.float64(0.0): 151, np.float64(1.
+
+print(
+    f"Lazy decision trees: using parameter grid:: \nBest Parameters: {best_params}\n Best Accuracy: {best_accuracy * 100:.2f}%"
+)

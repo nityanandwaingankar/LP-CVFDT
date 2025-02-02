@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from lazy_decision_tree import LazyDecisionTree
 from sklearn.model_selection import ParameterGrid
+import time
 
 
 def generate_synthetic_data(n_samples=1000, n_features=5, drift_point=None):
@@ -46,27 +47,24 @@ X_train, X_test, Y_train, Y_test = train_test_split(
 )
 
 param_grid = {
-    "min_samples_split": [_ for _ in range(1, 51, 5)],
-    "max_depth": [_ for _ in range(1, 100, 5)],
-    "grace_period": [_ for _ in range(1, 21, 2)],
-    "n_features": [1, 2, 3, 4, 5, 6, X.shape[1]],
+    "min_samples_split": [1],
+    "max_depth": [16],
+    "grace_period": [1],
+    "n_features": [1],
 }
-
-# Initialize variables to track the best parameters and accuracy
 best_accuracy = 0
-best_params = None
-
-# Iterate over all parameter combinations in the grid
 for params in ParameterGrid(param_grid):
-    # Create a new decision tree with the current parameters
+
     tree = LazyDecisionTree(**params)
+
+    train_start_time = time.time()
 
     # Update the tree with the training data
     for i in range(len(X_train)):
         tree.update(X_train[i], Y_train[i])
 
-    # tree.print_tree()
-    # print("************\n")
+    train_end_time = time.time()  # End training time
+    training_time = train_end_time - train_start_time
     # Evaluate the tree's accuracy on the test set
     correct_predictions = 0
     total_predictions = len(X_test)
@@ -78,14 +76,11 @@ for params in ParameterGrid(param_grid):
 
     # Calculate accuracy for the current parameter combination
     accuracy = correct_predictions / total_predictions
-
-    # Update the best parameters and accuracy if the current accuracy is higher
+    # Print the best parameters and the corresponding accuracy
     if accuracy > best_accuracy:
         best_accuracy = accuracy
         best_params = params
 
-
-# Print the best parameters and the corresponding accuracy
 print(
-    f"Lazy decision trees: using parameter grid:: \nBest Parameters: {best_params}\n Best Accuracy: {best_accuracy * 100:.2f}%"
+    f"Lazy decision trees: using parameter grid:: \nBest Parameters: {best_params}\n Best Accuracy: {best_accuracy * 100:.2f}% execution time: {training_time}"
 )

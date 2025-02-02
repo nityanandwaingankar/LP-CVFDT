@@ -19,7 +19,12 @@ class Node:
 
 class LazyDecisionTree:
     def __init__(
-        self, min_samples_split=2, max_depth=100, grace_period=200, n_features=None
+        self,
+        min_samples_split=2,
+        max_depth=100,
+        grace_period=200,
+        n_features=None,
+        seed=None,
     ):
         self.min_samples_split = (
             min_samples_split  # Minimum samples required to split a node
@@ -29,6 +34,7 @@ class LazyDecisionTree:
         self.grace_period = grace_period  # Determines when splits are considered
         self.root = None  # Root node of the tree
         self.data_count = 0  # Keeps track of the number of seen data points
+        self.seed = seed  # Seed for reproducibility
 
     def _initialize_tree(self, X_sample, y_sample):
         """Initialize the root node."""
@@ -83,7 +89,7 @@ class LazyDecisionTree:
         """
         if depth >= self.max_depth or len(node.stats) < self.min_samples_split:
             return
-
+        np.random.seed(self.seed)
         # Randomly sample features for splitting
         feat_idxs = np.random.choice(len(X), self.n_features, replace=False)
 

@@ -41,44 +41,47 @@ X_train, X_test, Y_train, Y_test = train_test_split(
     X, y, test_size=0.3, random_state=42, stratify=y
 )
 
-param_grid = {
-    "min_samples_split": [1],
-    "max_depth": [6],
-    "grace_period": [11],
-    "n_features": [X.shape[1]],
-    "seed": [6],
-}
+# param_grid = {
+#     "min_samples_split": [1],
+#     "max_depth": [6],
+#     "grace_period": [11],
+#     "n_features": [X.shape[1]],
+#     "seed": [6],
+# }
 
-best_accuracy = 0
-best_params = {}
+# best_accuracy = 0
+# best_params = {}
 accuracy_over_time = []
 processing_times = []
 
 
-for params in ParameterGrid(param_grid):
-    tree = LazyDecisionTree(**params)
-    train_start_time = time.time()
-    for i in range(len(X_train)):
-        tree.update(X_train[i], Y_train[i])
-    train_end_time = time.time()
-    training_time = train_end_time - train_start_time
-    correct_predictions = 0
-    total_predictions = 0
+# for params in ParameterGrid(param_grid):
+tree = LazyDecisionTree(
+    min_samples_split=1, max_depth=6, grace_period=11, n_features=X.shape[1]
+)
 
-    for i in range(len(X_test)):
-        start_time = time.time()
-        prediction = tree.predict(X_test[i])
-        end_time = time.time()
-        processing_times.append((end_time - start_time) * 1000)
-        if prediction == Y_test[i]:
-            correct_predictions += 1
-        total_predictions += 1
-        accuracy_over_time.append(correct_predictions / total_predictions)
+train_start_time = time.time()
+for i in range(len(X_train)):
+    tree.update(X_train[i], Y_train[i])
+train_end_time = time.time()
+training_time = train_end_time - train_start_time
+correct_predictions = 0
+total_predictions = 0
 
-    accuracy = correct_predictions / total_predictions
-    if accuracy > best_accuracy:
-        best_accuracy = accuracy
-        best_params = params
+for i in range(len(X_test)):
+    start_time = time.time()
+    prediction = tree.predict(X_test[i])
+    end_time = time.time()
+    processing_times.append((end_time - start_time) * 1000)
+    if prediction == Y_test[i]:
+        correct_predictions += 1
+    total_predictions += 1
+    accuracy_over_time.append(correct_predictions / total_predictions)
+
+accuracy = correct_predictions / total_predictions
+# if accuracy > best_accuracy:
+#     best_accuracy = accuracy
+#     best_params = params
 
 plt.figure(figsize=(10, 5))
 plt.plot(
@@ -94,7 +97,7 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-print(f"\nBest Parameters: {best_params}")
-print(f"Final Accuracy: {best_accuracy * 100:.2f}%")
+# print(f"\nBest Parameters: {best_params}")
+print(f"Final Accuracy: {accuracy * 100:.2f}%")
 print(f"Training Time: {training_time:.2f} seconds")
 print(f"Average Predicting Time per Record: {np.mean(processing_times):.7f} ms")

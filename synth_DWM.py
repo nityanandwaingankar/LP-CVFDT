@@ -6,6 +6,8 @@ from sklearn.model_selection import ParameterGrid
 from sklearn.tree import DecisionTreeClassifier
 from dwm import DynamicWeightedMajority
 import matplotlib.pyplot as plt
+import time
+from sklearn.model_selection import train_test_split
 
 
 def generate_synthetic_data(n_samples=1000, n_features=5, drift_point=None):
@@ -33,70 +35,15 @@ def generate_synthetic_data(n_samples=1000, n_features=5, drift_point=None):
     return np.array(X), np.array(y)
 
 
-# Generate synthetic data with a concept drift at sample 1000
-X, y = generate_synthetic_data(n_samples=6000, n_features=10, drift_point=4000)
-
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, Y_train, Y_test = train_test_split(
-    X, y, test_size=0.3, random_state=42, stratify=y
-)
-
-
-import time
-
-param_grid = {
-    "num_classes": [2],
-    "beta": [0.4],
-    "theta": [0.2],
-    "p": [4],
-    "create_classifier": [lambda: DecisionTreeClassifier(max_depth=3)],
-    "num_features": [10],
-    "window_size": [50],
-}
-best_accuracy = 0
-for params in ParameterGrid(param_grid):
-
-    tree = DynamicWeightedMajority(**params)
-
-    train_start_time = time.time()
-
-    # Update the tree with the training data
-    for i in range(len(X_train)):
-        tree.update(X_train[i], Y_train[i], i)
-
-    train_end_time = time.time()  # End training time
-    training_time = train_end_time - train_start_time
-    # Evaluate the tree's accuracy on the test set
-    correct_predictions = 0
-    total_predictions = len(X_test)
-
-    for i in range(total_predictions):
-        prediction = tree.predict(X_test[i])  # Get the prediction for the test sample
-        if prediction == Y_test[i]:  # Compare with the actual label
-            correct_predictions += 1
-
-    # Calculate accuracy for the current parameter combination
-    accuracy = correct_predictions / total_predictions
-    # Print the best parameters and the corresponding accuracy
-    if accuracy > best_accuracy:
-        best_accuracy = accuracy
-        best_params = params
-
-print(
-    f"Lazy decision trees: using parameter grid:: \nBest Parameters: {best_params}\n Best Accuracy: {best_accuracy * 100:.2f}% execution time: {training_time}"
-)
-
-#############################################################################
-param_grid = {
-    "num_classes": [2],
-    "beta": [0.4],
-    "theta": [0.2],
-    "p": [4],
-    "create_classifier": [lambda: DecisionTreeClassifier(max_depth=3)],
-    "num_features": [5],
-    "window_size": [50],
-}
+# param_grid = {
+#     "num_classes": [2],
+#     "beta": [0.4],
+#     "theta": [0.2],
+#     "p": [4],
+#     "create_classifier": [lambda: DecisionTreeClassifier(max_depth=3)],
+#     "num_features": [10],
+#     "window_size": [50],
+# }
 
 
 def simulate_streaming(X_train, Y_train, X_test, Y_test, model, sleep_time=0.001):
@@ -152,8 +99,16 @@ X, y = generate_synthetic_data(n_samples=10000, n_features=5, drift_point=8000)
 # Split into training and test sets
 X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
 
-for params in ParameterGrid(param_grid):
-    tree = DynamicWeightedMajority(**params)
+# for params in ParameterGrid(param_grid):
+tree = DynamicWeightedMajority(
+    num_classes=2,
+    beta=0.4,
+    theta=0.2,
+    p=4,
+    create_classifier=lambda: DecisionTreeClassifier(max_depth=3),
+    num_features=5,
+    window_size=50,
+)
 
 # Simulate streaming and collect accuracy/time stats
 accuracy_over_time, processing_time, training_time = simulate_streaming(

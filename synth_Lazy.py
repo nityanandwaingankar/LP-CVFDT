@@ -6,6 +6,7 @@ from lazy_decision_tree import LazyDecisionTree
 from sklearn.model_selection import ParameterGrid
 import time
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 
 
 def generate_synthetic_data(n_samples=1000, n_features=5, drift_point=None):
@@ -30,61 +31,6 @@ def generate_synthetic_data(n_samples=1000, n_features=5, drift_point=None):
         X.append(features)
         y.append(label)
     return np.array(X), np.array(y)
-
-
-# example_usage.py
-# from cvfdt import CVFDT
-# from synthetic_data import generate_synthetic_data
-
-# Initialize the CVFDT model
-
-# Generate synthetic data with a concept drift at sample 1000
-X, y = generate_synthetic_data(n_samples=6000, n_features=10, drift_point=4000)
-
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, Y_train, Y_test = train_test_split(
-    X, y, test_size=0.3, random_state=42, stratify=y
-)
-
-param_grid = {
-    "min_samples_split": [1],
-    "max_depth": [16],
-    "grace_period": [1],
-    "n_features": [5],
-}
-best_accuracy = 0
-for params in ParameterGrid(param_grid):
-
-    tree = LazyDecisionTree(**params)
-
-    train_start_time = time.time()
-
-    # Update the tree with the training data
-    for i in range(len(X_train)):
-        tree.update(X_train[i], Y_train[i])
-
-    train_end_time = time.time()  # End training time
-    training_time = train_end_time - train_start_time
-    # Evaluate the tree's accuracy on the test set
-    correct_predictions = 0
-    total_predictions = len(X_test)
-
-    for i in range(total_predictions):
-        prediction = tree.predict(X_test[i])  # Get the prediction for the test sample
-        if prediction == Y_test[i]:  # Compare with the actual label
-            correct_predictions += 1
-
-    # Calculate accuracy for the current parameter combination
-    accuracy = correct_predictions / total_predictions
-    # Print the best parameters and the corresponding accuracy
-    if accuracy > best_accuracy:
-        best_accuracy = accuracy
-        best_params = params
-
-print(
-    f"Lazy decision trees: using parameter grid:: \nBest Parameters: {best_params}\n Best Accuracy: {best_accuracy * 100:.2f}% execution time: {training_time}"
-)  # Simulate streaming process and track accuracy over time
 
 
 def simulate_streaming(X_train, Y_train, X_test, Y_test, model, sleep_time=0.001):
@@ -134,15 +80,25 @@ def simulate_streaming(X_train, Y_train, X_test, Y_test, model, sleep_time=0.001
     return accuracy_over_time, processing_times, training_time
 
 
+# param_grid = {
+#     "min_samples_split": [1],
+#     "max_depth": [16],
+#     "grace_period": [1],
+#     "n_features": [5],
+# }
+# best_accuracy = 0
+# for params in ParameterGrid(param_grid):
+
+
 # Generate dataset
 X, y = generate_synthetic_data(n_samples=10000, n_features=5, drift_point=8000)
 
 # Split into training and test sets
 X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
-for params in ParameterGrid(param_grid):
 
-    # Initialize Lazy Decision Tree
-    ldt = LazyDecisionTree(**params)
+# Initialize Lazy Decision Tree
+# for params in ParameterGrid(param_grid):
+ldt = LazyDecisionTree(min_samples_split=1, max_depth=16, grace_period=1, n_features=5)
 
 # Simulate streaming and collect accuracy/time stats
 accuracy_over_time, processing_time, training_time = simulate_streaming(
@@ -169,5 +125,4 @@ plt.show()
 # Print final results
 print(f"Final Accuracy: {accuracy_over_time[-1] * 100:.2f}%")
 print(f"Training Time: {training_time:.2f} seconds")
-
 print(f"Average Processing Time per Record: {np.mean(processing_time):.7f} ms")

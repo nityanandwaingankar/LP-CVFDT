@@ -24,7 +24,7 @@ class LazyDecisionTree:
         max_depth=100,
         grace_period=200,
         n_features=None,
-        seed=None,
+        seed=6,
     ):
         self.min_samples_split = (
             min_samples_split  # Minimum samples required to split a node

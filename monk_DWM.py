@@ -19,56 +19,57 @@ X_train, X_test, Y_train, Y_test = train_test_split(
     X, y, test_size=0.3, random_state=42, stratify=y
 )
 
-# Define hyperparameters
-param_grid = {
-    "num_classes": [2],
-    "beta": [0.8],
-    "theta": [0.2],
-    "p": [5],
-    "create_classifier": [lambda: DecisionTreeClassifier(max_depth=3)],
-    "num_features": [6],
-    "window_size": [50],
-}
+# # Define hyperparameters
+# param_grid = {
+#     "num_classes": [2],
+#     "beta": [0.4],
+#     "theta": [0.2],
+#     "p": [4],
+#     "create_classifier": [lambda: DecisionTreeClassifier(max_depth=3)],
+#     "num_features": [5],
+#     "window_size": [50],
+# }
 
-best_accuracy = 0
-best_params = None
 accuracy_over_time = []
 processing_times = []
 
+# for params in ParameterGrid(param_grid):
+tree = DynamicWeightedMajority(
+    num_classes=2,
+    beta=0.8,
+    theta=0.2,
+    p=5,
+    create_classifier=lambda: DecisionTreeClassifier(max_depth=3),
+    num_features=6,
+    window_size=50,
+)
 
-for params in ParameterGrid(param_grid):
-    tree = DynamicWeightedMajority(**params)
+train_start_time = time.time()
 
-    train_start_time = time.time()
+# Update the tree with the training data
+for i in range(len(X_train)):
+    tree.update(X_train[i], Y_train[i], i)
 
-    # Update the tree with the training data
-    for i in range(len(X_train)):
-        tree.update(X_train[i], Y_train[i], i)
+train_end_time = time.time()
+training_time = train_end_time - train_start_time
 
-    train_end_time = time.time()
-    training_time = train_end_time - train_start_time
+# Evaluate the model and track accuracy over time
+correct_predictions = 0
+total_predictions = 0
 
-    # Evaluate the model and track accuracy over time
-    correct_predictions = 0
-    total_predictions = 0
+for i in range(len(X_test)):
+    start_time = time.time()
+    prediction = tree.predict(X_test[i])
+    end_time = time.time()
+    processing_times.append((end_time - start_time) * 1000)
+    if prediction == Y_test[i]:
+        correct_predictions += 1
+    total_predictions += 1
+    accuracy_over_time.append(correct_predictions / total_predictions)  # Track accuracy
 
-    for i in range(len(X_test)):
-        start_time = time.time()
-        prediction = tree.predict(X_test[i])
-        end_time = time.time()
-        processing_times.append((end_time - start_time) * 1000)
-        if prediction == Y_test[i]:
-            correct_predictions += 1
-        total_predictions += 1
-        accuracy_over_time.append(
-            correct_predictions / total_predictions
-        )  # Track accuracy
+# # Store best accuracy and params
+accuracy = correct_predictions / total_predictions
 
-    # Store best accuracy and params
-    accuracy = correct_predictions / total_predictions
-    if accuracy > best_accuracy:
-        best_accuracy = accuracy
-        best_params = params
 
 # Plot accuracy over time
 plt.figure(figsize=(10, 5))
@@ -86,7 +87,6 @@ plt.grid(True)
 plt.show()
 
 # Print final results
-print(f"\nBest Parameters: {best_params}")
-print(f"Final Accuracy: {best_accuracy * 100:.2f}%")
+print(f"Final Accuracy: {accuracy * 100:.2f}%")
 print(f"Training Time: {training_time:.2f} seconds")
 print(f"Average predicting Time per Record: {np.mean(processing_times):.7f} ms")

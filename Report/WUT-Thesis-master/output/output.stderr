@@ -1,0 +1,44 @@
+ChkTeX v1.7.8 - Copyright 1995-96 Jens T. Berger Thielemann.
+Compiled with PCRE regex support.
+No errors printed; No warnings printed; 238 user suppressed warnings; No line suppressed warnings.
+
+kpathsea: Running mktextfm futr8t+20
+mktextfm: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1; ; nonstopmode; input futr8t+20
+This is METAFONT, Version 2.71828182 (TeX Live 2025) (preloaded base=mf)
+
+kpathsea: Running mktexmf futr8t+20
+
+! I can't find file `futr8t+20'.
+<*> ...our; mag:=1; ; nonstopmode; input futr8t+20
+                                                  
+Please type another input file name
+! Emergency stop.
+<*> ...our; mag:=1; ; nonstopmode; input futr8t+20
+                                                  
+Transcript written on mfput.log.
+grep: futr8t+20.log: No such file or directory
+mktextfm: `mf-nowin -progname=mf \mode:=ljfour; mag:=1; ; nonstopmode; input futr8t+20' failed to make futr8t+20.tfm.
+kpathsea: Appending font creation commands to missfont.log.
+
+kpathsea: Running mktextfm futr8t-20
+mktextfm: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1; ; nonstopmode; input futr8t-20
+This is METAFONT, Version 2.71828182 (TeX Live 2025) (preloaded base=mf)
+
+kpathsea: Running mktexmf futr8t-20
+
+! I can't find file `futr8t-20'.
+<*> ...our; mag:=1; ; nonstopmode; input futr8t-20
+                                                  
+Please type another input file name
+! Emergency stop.
+<*> ...our; mag:=1; ; nonstopmode; input futr8t-20
+                                                  
+Transcript written on mfput.log.
+grep: futr8t-20.log: No such file or directory
+mktextfm: `mf-nowin -progname=mf \mode:=ljfour; mag:=1; ; nonstopmode; input futr8t-20' failed to make futr8t-20.tfm.
+Error: /undefined in obj
+Operand stack:   4   0
+Execution stack:   %interp_exit   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--   --nostringval--   --nostringval--   false   1   %stopped_push   1944   1   3   %oparray_pop   1943   1   3   %oparray_pop   1928   1   3   %oparray_pop   1801   1   3   %oparray_pop   --nostringval--   %errorexec_pop   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--
+Dictionary stack:   --dict:765/1123(ro)(G)--   --dict:0/20(G)--   --dict:115/200(L)--   --dict:191/300(L)--   --dict:62/200(L)--
+Current allocation mode is local
+GPL Ghostscript 10.02.1: Unrecoverable error, exit code 1

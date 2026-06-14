@@ -1,0 +1,45 @@
+\cleardoublepage
+\chapter{Related Work}
+\label{chap:related-work}
+
+This chapter reviews the foundations of streaming classification with concept drift and situates Lazy VFDT within existing literature on Hoeffding trees, ensemble learners, and dataset benchmarks used by the streaming community.
+
+\section{Concept Drift in Data Streams}
+Streaming models must operate under a constrained memory budget while reacting to non-stationary distributions \cite{gama2014survey}.  Drift is typically categorised as:
+\begin{itemize}
+    \item \textbf{Gradual drift}---the decision boundary moves slowly over time (e.g., seasonal electricity demand).  Prequential evaluation and sliding windows are common countermeasures.
+    \item \textbf{Sudden drift}---an abrupt regime change (e.g., sensor recalibration).  Detection-and-reset mechanisms or ensembles with change detectors are often used.
+    \item \textbf{Recurring drift}---concepts reappear after periods of absence, requiring learners to retain historical knowledge without memorising all data.
+\end{itemize}
+Handling drift efficiently requires streaming learners to support instance-wise updates, bounded latency, and selective forgetting.  This motivates algorithms such as Very Fast Decision Trees (VFDT) and their derivatives.
+
+\section{Decision Trees for Streams}
+Hoeffding trees approximate batch decision trees by exploiting the Hoeffding bound to make split decisions using a small sample \cite{domingos2000vfdt}.  Notable enhancements include:
+\begin{itemize}
+    \item \textbf{VFDTc/VFDT-nc}: incorporate continuous attributes or numeric counters for better split confidence.
+    \item \textbf{CVFDT}: maintain alternate subtrees to adapt to drift without rebuilding the entire model.
+    \item \textbf{Probabilistic/VFDT-FR}: integrate feature re-weighting or naive Bayes leaves to improve accuracy under limited depth.
+\end{itemize}
+Lazy VFDT extends this family by postponing pruning until prediction time.  Internal nodes retain majority-class statistics and evaluate pruning criteria only when queried.  This ``lazy pruning'' reduces update cost (no eager restructuring) while enabling rapid recovery when drift renders a branch obsolete.
+
+\section{Ensemble Approaches}
+Ensemble learners dominate many concept-drift benchmarks thanks to their diversity and adaptive weighting.  Representative methods include:
+\begin{itemize}
+    \item \textbf{Dynamic Weighted Majority (DWM)} \cite{kolter2007dwm}: maintains a pool of experts with exponentially decayed weights, removing poorly performing experts and adding new ones upon errors.
+    \item \textbf{Adaptive Random Forests} \cite{bifet2009arf}: combine multiple Hoeffding trees with online bagging and concept-drift detectors to selectively replace trees.
+    \item \textbf{Leveraging Bagging}: increases classifier diversity via re-sampling tricks (e.g., Poisson sampling with ADWIN drift detectors).
+\end{itemize}
+While ensembles deliver strong accuracy, they incur significant training-time overhead and higher inference latency because each instance must traverse many models.  The contrast between such ensembles and Lazy VFDT is central to this thesis: we quantify the efficiency gap and identify when accuracy remains comparable.
+
+\section{Benchmark Datasets}
+Concept-drift research frequently relies on a small set of synthetic and real streams, each stressing different learner properties:
+\begin{itemize}
+    \item \textbf{Rotating Hyperplane}: synthetic gradual or sudden drift controlled via drift rate and noise; widely used to test theoretical behaviour.
+    \item \textbf{Electricity (ELEC2)}: reflects market demand changes; binary labels, recurring daily patterns, and moderate noise \cite{harries1999electricity}.
+    \item \textbf{Gas Sensor Array Drift}: multi-class sensor data with strong calibration drift, requiring normalisation per batch or sensor \cite{vergara2012gas}.
+    \item \textbf{Airlines Flight Delay}: long-range stream with heterogeneous categorical attributes, highlighting the impact of feature encoding and latency constraints.
+\end{itemize}
+This thesis utilises the same dataset families to demonstrate Lazy VFDT under gradual, sudden, multi-class, and noisy drift scenarios.
+
+\section{Summary}
+Prior work establishes a trade-off between accuracy and efficiency: ensembles such as DWM achieve robustness at the cost of computational complexity, whereas single-tree approaches adapt quickly but may underperform without tuning.  Lazy VFDT sits between these extremes by combining Hoeffding-tree updates with lazy pruning.  The following chapters detail our methodology, implementation, and empirical evaluation designed to rigorously test this balance.

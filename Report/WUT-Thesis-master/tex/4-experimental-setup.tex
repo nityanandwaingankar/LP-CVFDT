@@ -1,0 +1,16 @@
+\cleardoublepage
+\chapter{Experimental Setup}
+\label{chap:setup}
+
+\section{Metrics}
+We evaluate accuracy (percentage of correct predictions on the hold-out stream), total training time in seconds, per-instance prediction latency (mean and 95th percentile in milliseconds), and model size (node count for Lazy VFDT, number of experts for DWM). All metrics are recorded per seed and aggregated with mean and standard deviation using the tooling described in Section~\ref{chap:methodology}.
+
+\section{Protocol}
+Each dataset is streamed in chronological order (70\% train, 30\% test). For synthetic streams, we generate $10{,}000$ samples with specified drift rates/noise. For real datasets, we convert to CSV, preserve order, and split without shuffling. Each condition is repeated for seeds $\{13, 29, 47, 83, 101\}$; for synthetic data the seed controls random generation, while for real data it seeds model initialisation. Per-instance latency is measured using Python's \texttt{time.perf\_counter()} around the prediction call.
+
+\section{Hardware and Software}
+Experiments were run on a Windows 11 workstation using the \texttt{dtree} conda environment (Python 3.11, NumPy 2.1, scikit-learn 1.5, seaborn for plotting). Commands were executed via \texttt{conda run -n dtree python ...} to ensure reproducibility. Python scripts (\texttt{compare\_lazy\_vs\_dwm.py}, \texttt{tools/summarize\_results.py}, \texttt{tools/plot\_results.py}) manage streaming, logging, aggregation, and plotting. MOA-referenced datasets such as Electricity and Airlines follow preparation steps inspired by \cite{bifet2010moa}.
+
+\section{Tooling and Reproducibility}
+All experimental configurations are version-controlled in the repository root. \texttt{results.csv} stores per-run metrics, \texttt{docs/results\_summary.md} holds aggregated statistics generated via \texttt{tools/summarize\_results.py}, and \texttt{docs/plots/*.png} contain accuracy/training-time/latency charts from \texttt{tools/plot\_results.py}. Dataset preparation utilities (e.g., \texttt{tools/prepare\_gas\_sensor\_csv.py}) convert raw sources into the CSV formats consumed by the main script. Re-running any condition consists of invoking the provided commands, regenerating the summary, and rebuilding the thesis PDF using the WUT template.
+

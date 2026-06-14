@@ -1,0 +1,46 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1\relax .\enspace }Introduction}{7}{chapter.1}%
+\contentsline {section}{\numberline {1.1\relax .\enspace }Motivation}{7}{section.1.1}%
+\contentsline {section}{\numberline {1.2\relax .\enspace }Problem Statement and Objectives}{7}{section.1.2}%
+\contentsline {section}{\numberline {1.3\relax .\enspace }Contributions}{7}{section.1.3}%
+\contentsline {section}{\numberline {1.4\relax .\enspace }Thesis Structure}{8}{section.1.4}%
+\contentsline {chapter}{\numberline {2\relax .\enspace }Related Work}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1\relax .\enspace }Concept Drift in Data Streams}{9}{section.2.1}%
+\contentsline {section}{\numberline {2.2\relax .\enspace }Decision Trees for Streams}{9}{section.2.2}%
+\contentsline {section}{\numberline {2.3\relax .\enspace }Ensemble Approaches}{10}{section.2.3}%
+\contentsline {section}{\numberline {2.4\relax .\enspace }Benchmark Datasets}{10}{section.2.4}%
+\contentsline {section}{\numberline {2.5\relax .\enspace }Summary}{10}{section.2.5}%
+\contentsline {chapter}{\numberline {3\relax .\enspace }Methodology}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1\relax .\enspace }Lazy Very Fast Decision Tree}{11}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1\relax .\enspace }Update Procedure}{11}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2\relax .\enspace }Lazy Pruning During Prediction}{11}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2\relax .\enspace }Dynamic Weighted Majority Baseline}{12}{section.3.2}%
+\contentsline {section}{\numberline {3.3\relax .\enspace }Implementation Details}{12}{section.3.3}%
+\contentsline {section}{\numberline {3.4\relax .\enspace }Dataset Preprocessing}{13}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1\relax .\enspace }Synthetic Rotating Hyperplane}{13}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2\relax .\enspace }Electricity}{13}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3\relax .\enspace }Gas Sensor Array Drift}{13}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4\relax .\enspace }Airlines}{13}{subsection.3.4.4}%
+\contentsline {section}{\numberline {3.5\relax .\enspace }Summary}{13}{section.3.5}%
+\contentsline {chapter}{\numberline {4\relax .\enspace }Experimental Setup}{15}{chapter.4}%
+\contentsline {section}{\numberline {4.1\relax .\enspace }Metrics}{15}{section.4.1}%
+\contentsline {section}{\numberline {4.2\relax .\enspace }Protocol}{15}{section.4.2}%
+\contentsline {section}{\numberline {4.3\relax .\enspace }Hardware and Software}{15}{section.4.3}%
+\contentsline {section}{\numberline {4.4\relax .\enspace }Tooling and Reproducibility}{15}{section.4.4}%
+\contentsline {chapter}{\numberline {5\relax .\enspace }Results}{17}{chapter.5}%
+\contentsline {section}{\numberline {5.1\relax .\enspace }Rotating Hyperplane (Drift Rate 0.05)}{17}{section.5.1}%
+\contentsline {section}{\numberline {5.2\relax .\enspace }Electricity}{17}{section.5.2}%
+\contentsline {section}{\numberline {5.3\relax .\enspace }Gas Sensor Array Drift}{17}{section.5.3}%
+\contentsline {section}{\numberline {5.4\relax .\enspace }Airlines}{17}{section.5.4}%
+\contentsline {section}{\numberline {5.5\relax .\enspace }Figures}{18}{section.5.5}%
+\contentsline {chapter}{\numberline {6\relax .\enspace }Discussion}{21}{chapter.6}%
+\contentsline {section}{\numberline {6.1\relax .\enspace }Accuracy vs. Efficiency Trade-offs}{21}{section.6.1}%
+\contentsline {section}{\numberline {6.2\relax .\enspace }Impact of Preprocessing and Tuning}{21}{section.6.2}%
+\contentsline {section}{\numberline {6.3\relax .\enspace }Practical Recommendations}{21}{section.6.3}%
+\contentsline {section}{\numberline {6.4\relax .\enspace }Limitations}{22}{section.6.4}%
+\contentsline {chapter}{\numberline {7\relax .\enspace }Conclusion}{23}{chapter.7}%
+\contentsline {section}{\numberline {7.1\relax .\enspace }Future Work}{23}{section.7.1}%
+\contentsline {chapter}{Bibliography}{25}{chapter*.4}%
+\contentsline {section}{List of Figures}{26}{section*.5}%
+\contentsline {section}{List of Tables}{26}{section*.5}%
+\contentsline {section}{List of Appendices}{26}{section*.6}%

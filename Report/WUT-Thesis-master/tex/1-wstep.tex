@@ -1,0 +1,35 @@
+\cleardoublepage
+\chapter{Introduction}
+\label{chap:introduction}
+
+\section{Motivation}
+Continuous data streams are now the norm for cyber-physical systems, smart infrastructure, and interactive services.  Unlike stationary datasets, streams evolve as user behaviour, physical environments, and sensing hardware drift over time.  Concept drift invalidates static models \cite{gama2014survey}, yet industry systems still need real-time predictions delivered at millisecond latency.  Ensemble-based stream learners, such as Dynamic Weighted Majority (DWM) \cite{kolter2007dwm}, provide strong accuracy but at the cost of expensive updates and high prediction latency.  For resource-constrained deployments and safety-critical feedback loops, the computational overhead of retraining large ensembles is prohibitive.  This motivates the study of lightweight streaming models that adapt fast, remain interpretable, and have predictable latency profiles.
+
+\section{Problem Statement and Objectives}
+This thesis investigates Lazy Very Fast Decision Trees (Lazy VFDT) as an alternative to ensemble methods for concept-drifting streams.  Lazy VFDT combines incremental Hoeffding-tree style growth \cite{domingos2000vfdt} with a ``lazy'' pruning step executed during prediction.  The central research problem is whether this design can match the accuracy of established baselines while dramatically lowering training and inference costs.  The concrete objectives are:
+\begin{itemize}
+    \item Design and stabilise an implementation of Lazy VFDT that supports single-instance updates, lazy pruning, and reproducible experimentation.
+    \item Establish a fair baseline with DWM using identical feature sets and data streams.
+    \item Evaluate both approaches on synthetic and real-world drift benchmarks, measuring accuracy, training time, average and p95 prediction latency, and model size.
+    \item Analyse how dataset characteristics (gradual vs. sudden drift, binary vs. multi-class labels) and preprocessing choices (feature scaling, batch-aware normalisation) influence model behaviour.
+\end{itemize}
+
+\section{Contributions}
+The thesis delivers the following contributions:
+\begin{enumerate}
+    \item A reproducible Python framework that streams instances to Lazy VFDT and DWM under identical conditions, logs metrics per seed, and automates result aggregation.
+    \item Dataset loaders and preprocessing pipelines for the canonical Electricity dataset, the Gas Sensor Array Drift benchmark, Airlines flight-delay data, and rotating hyperplane generators, including tooling for per-batch scaling and libsvm-to-CSV conversion.
+    \item An empirical study across these benchmarks demonstrating where Lazy VFDT matches or exceeds DWM accuracy while reducing training time by one to two orders of magnitude and lowering prediction latency.
+    \item Guidance on dataset-specific presets (e.g., per-batch scaling for sensor drift, deeper trees for multi-class streams) that practitioners can reuse when deploying Lazy VFDT.
+\end{enumerate}
+
+\section{Thesis Structure}
+The remainder of the document follows the structure below:
+\begin{itemize}
+    \item Chapter~\ref{chap:related-work} summarises related work on concept drift, Hoeffding trees, and ensemble stream learners.
+    \item Chapter~\ref{chap:methodology} details the Lazy VFDT architecture, the DWM baseline, implementation specifics, and dataset preprocessing pipelines.
+    \item Chapter~\ref{chap:setup} describes the experimental protocol, metrics, hardware, and tooling used to ensure reproducibility.
+    \item Chapter~\ref{chap:results} presents quantitative results with aggregated tables and plots, comparing accuracy, training time, latency, and model size across datasets.
+    \item Chapter~\ref{chap:discussion} discusses the implications of these findings, highlighting strengths, limitations, and practical recommendations.
+    \item Chapter~\ref{chap:conclusion} concludes the thesis and outlines directions for future work on adaptive parameter tuning and additional baselines.
+\end{itemize}

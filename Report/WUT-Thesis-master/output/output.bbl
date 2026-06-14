@@ -1,0 +1,288 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{gama2014survey}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=844d99c5b8c67291826b6a62fea44989}{%
+           family={Gama},
+           familyi={G\bibinitperiod},
+           given={João},
+           giveni={J\bibinitperiod}}}%
+        {{hash=56534dec9cf5897497e2925fa379194c}{%
+           family={Žliobaitė},
+           familyi={Ž\bibinitperiod},
+           given={Indrė},
+           giveni={I\bibinitperiod}}}%
+        {{hash=9e432ecb5f30e4b9b6eb8dde24e2ba38}{%
+           family={Bifet},
+           familyi={B\bibinitperiod},
+           given={Albert},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8e2774559888845d8e0e20be5a4dd907}{%
+           family={Pechenizkiy},
+           familyi={P\bibinitperiod},
+           given={Mykola},
+           giveni={M\bibinitperiod}}}%
+        {{hash=2cb927209b522e1d5fff80c38210c753}{%
+           family={Bouchachia},
+           familyi={B\bibinitperiod},
+           given={Abdelhamid},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{56431deb8901de6306944b9ccd741193}
+      \strng{fullhash}{1254394f61dcdeed105976a04fa49560}
+      \strng{fullhashraw}{1254394f61dcdeed105976a04fa49560}
+      \strng{bibnamehash}{1254394f61dcdeed105976a04fa49560}
+      \strng{authorbibnamehash}{1254394f61dcdeed105976a04fa49560}
+      \strng{authornamehash}{56431deb8901de6306944b9ccd741193}
+      \strng{authorfullhash}{1254394f61dcdeed105976a04fa49560}
+      \strng{authorfullhashraw}{1254394f61dcdeed105976a04fa49560}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Computing Surveys}
+      \field{number}{4}
+      \field{title}{A Survey on Concept Drift Adaptation}
+      \field{volume}{46}
+      \field{year}{2014}
+      \field{pages}{44:1\bibrangedash 44:37}
+      \range{pages}{-1}
+    \endentry
+    \entry{kolter2007dwm}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=0288715a83a3349e44f9292c5c2149f7}{%
+           family={Kolter},
+           familyi={K\bibinitperiod},
+           given={J.\bibnamedelimi Zico},
+           giveni={J\bibinitperiod\bibinitdelim Z\bibinitperiod}}}%
+        {{hash=806e826696197d4f04736d1d339869b3}{%
+           family={Maloof},
+           familyi={M\bibinitperiod},
+           given={Marcus\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{0643960dde1ff561e40f068490f550fd}
+      \strng{fullhash}{0643960dde1ff561e40f068490f550fd}
+      \strng{fullhashraw}{0643960dde1ff561e40f068490f550fd}
+      \strng{bibnamehash}{0643960dde1ff561e40f068490f550fd}
+      \strng{authorbibnamehash}{0643960dde1ff561e40f068490f550fd}
+      \strng{authornamehash}{0643960dde1ff561e40f068490f550fd}
+      \strng{authorfullhash}{0643960dde1ff561e40f068490f550fd}
+      \strng{authorfullhashraw}{0643960dde1ff561e40f068490f550fd}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Machine Learning Research}
+      \field{title}{Dynamic Weighted Majority: An Ensemble Method for Drifting Concepts}
+      \field{volume}{8}
+      \field{year}{2007}
+      \field{pages}{2755\bibrangedash 2790}
+      \range{pages}{36}
+    \endentry
+    \entry{domingos2000vfdt}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=926269a097c38456f5b32d7efb1d1a80}{%
+           family={Domingos},
+           familyi={D\bibinitperiod},
+           given={Pedro},
+           giveni={P\bibinitperiod}}}%
+        {{hash=55e6c1df6c1f824fa7f8ffb4844d6994}{%
+           family={Hulten},
+           familyi={H\bibinitperiod},
+           given={Geoff},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{6928a29b679110991577eaaff41246c7}
+      \strng{fullhash}{6928a29b679110991577eaaff41246c7}
+      \strng{fullhashraw}{6928a29b679110991577eaaff41246c7}
+      \strng{bibnamehash}{6928a29b679110991577eaaff41246c7}
+      \strng{authorbibnamehash}{6928a29b679110991577eaaff41246c7}
+      \strng{authornamehash}{6928a29b679110991577eaaff41246c7}
+      \strng{authorfullhash}{6928a29b679110991577eaaff41246c7}
+      \strng{authorfullhashraw}{6928a29b679110991577eaaff41246c7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Sixth ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}
+      \field{title}{Mining High-Speed Data Streams}
+      \field{year}{2000}
+      \field{pages}{71\bibrangedash 80}
+      \range{pages}{10}
+    \endentry
+    \entry{bifet2009arf}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=9e432ecb5f30e4b9b6eb8dde24e2ba38}{%
+           family={Bifet},
+           familyi={B\bibinitperiod},
+           given={Albert},
+           giveni={A\bibinitperiod}}}%
+        {{hash=ebb853a221aef84fc973d5bc9bfafe89}{%
+           family={Gavaldà},
+           familyi={G\bibinitperiod},
+           given={Ricard},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{8900431328ad8af0f59053b54c1e3024}
+      \strng{fullhash}{8900431328ad8af0f59053b54c1e3024}
+      \strng{fullhashraw}{8900431328ad8af0f59053b54c1e3024}
+      \strng{bibnamehash}{8900431328ad8af0f59053b54c1e3024}
+      \strng{authorbibnamehash}{8900431328ad8af0f59053b54c1e3024}
+      \strng{authornamehash}{8900431328ad8af0f59053b54c1e3024}
+      \strng{authorfullhash}{8900431328ad8af0f59053b54c1e3024}
+      \strng{authorfullhashraw}{8900431328ad8af0f59053b54c1e3024}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Intelligent Data Analysis VIII}
+      \field{title}{Adaptive Random Forests for Evolving Data Streams}
+      \field{year}{2009}
+      \field{pages}{27\bibrangedash 37}
+      \range{pages}{11}
+    \endentry
+    \entry{harries1999electricity}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=6f112da7ead1567a494c061d99caa614}{%
+           family={Harries},
+           familyi={H\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {University of New South Wales}%
+      }
+      \strng{namehash}{6f112da7ead1567a494c061d99caa614}
+      \strng{fullhash}{6f112da7ead1567a494c061d99caa614}
+      \strng{fullhashraw}{6f112da7ead1567a494c061d99caa614}
+      \strng{bibnamehash}{6f112da7ead1567a494c061d99caa614}
+      \strng{authorbibnamehash}{6f112da7ead1567a494c061d99caa614}
+      \strng{authornamehash}{6f112da7ead1567a494c061d99caa614}
+      \strng{authorfullhash}{6f112da7ead1567a494c061d99caa614}
+      \strng{authorfullhashraw}{6f112da7ead1567a494c061d99caa614}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Splice-2 Comparative Evaluation: Electricity Pricing}
+      \field{type}{techreport}
+      \field{year}{1999}
+    \endentry
+    \entry{vergara2012gas}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=edffc4c1771e5a034dcb1a2aa1033d74}{%
+           family={Vergara},
+           familyi={V\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c0078601cd40facef1043b8a989dd580}{%
+           family={Vembu},
+           familyi={V\bibinitperiod},
+           given={Shankar},
+           giveni={S\bibinitperiod}}}%
+        {{hash=196546b488534056515919b3ef7dff47}{%
+           family={Ayhan},
+           familyi={A\bibinitperiod},
+           given={Tuba},
+           giveni={T\bibinitperiod}}}%
+        {{hash=89d158fb316d98f9b947a5b6abb967fb}{%
+           family={Ryan},
+           familyi={R\bibinitperiod},
+           given={Mark\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=baf4251b03ee3861626bda0fae66c7e0}{%
+           family={Homer},
+           familyi={H\bibinitperiod},
+           given={Margaret\bibnamedelima L.},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=980d520bb88b3f98386922aa4e685b2d}{%
+           family={Huerta},
+           familyi={H\bibinitperiod},
+           given={Ramon},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{53dce6ce57595185b0284a39068c3afe}
+      \strng{fullhash}{61b1674dde4ba620a860724bcbb9119a}
+      \strng{fullhashraw}{61b1674dde4ba620a860724bcbb9119a}
+      \strng{bibnamehash}{61b1674dde4ba620a860724bcbb9119a}
+      \strng{authorbibnamehash}{61b1674dde4ba620a860724bcbb9119a}
+      \strng{authornamehash}{53dce6ce57595185b0284a39068c3afe}
+      \strng{authorfullhash}{61b1674dde4ba620a860724bcbb9119a}
+      \strng{authorfullhashraw}{61b1674dde4ba620a860724bcbb9119a}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors and Actuators B: Chemical}
+      \field{title}{Chemical Gas Sensor Drift Compensation Using Classifier Ensembles}
+      \field{volume}{166--167}
+      \field{year}{2012}
+      \field{pages}{320\bibrangedash 329}
+      \range{pages}{10}
+    \endentry
+    \entry{bifet2010moa}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=9e432ecb5f30e4b9b6eb8dde24e2ba38}{%
+           family={Bifet},
+           familyi={B\bibinitperiod},
+           given={Albert},
+           giveni={A\bibinitperiod}}}%
+        {{hash=fbe67b128273a908b77e6417dcc337a2}{%
+           family={Holmes},
+           familyi={H\bibinitperiod},
+           given={Geoff},
+           giveni={G\bibinitperiod}}}%
+        {{hash=9a94cc4d8fdede6bc394f7eb30eab646}{%
+           family={Kirkby},
+           familyi={K\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=8d3031672ff9944d1bd83979cee191bb}{%
+           family={Pfahringer},
+           familyi={P\bibinitperiod},
+           given={Bernhard},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{d58180b363e800ecb53eb5bad4d889f3}
+      \strng{fullhash}{d3ee00184303485acba0912c51679075}
+      \strng{fullhashraw}{d3ee00184303485acba0912c51679075}
+      \strng{bibnamehash}{d3ee00184303485acba0912c51679075}
+      \strng{authorbibnamehash}{d3ee00184303485acba0912c51679075}
+      \strng{authornamehash}{d58180b363e800ecb53eb5bad4d889f3}
+      \strng{authorfullhash}{d3ee00184303485acba0912c51679075}
+      \strng{authorfullhashraw}{d3ee00184303485acba0912c51679075}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Journal of Machine Learning Research Workshop and Conference Proceedings}
+      \field{title}{MOA: Massive Online Analysis}
+      \field{volume}{11}
+      \field{year}{2010}
+      \field{pages}{44\bibrangedash 50}
+      \range{pages}{7}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

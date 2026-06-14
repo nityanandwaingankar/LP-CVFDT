@@ -1,0 +1,23 @@
+\cleardoublepage
+\chapter{Conclusion}
+\label{chap:conclusion}
+
+This thesis introduced a practical evaluation of Lazy Very Fast Decision Trees (Lazy VFDT) for concept-drifting data streams. The main findings are:
+\begin{itemize}
+    \item Lazy VFDT matches or surpasses DWM accuracy on gradual-drift binary streams (Rotating Hyperplane, Electricity) while being one to two orders of magnitude more efficient in training and prediction latency.
+    \item With dataset-specific preprocessing (per-batch scaling) and modest tuning (deeper trees), Lazy VFDT remains competitive on challenging multi-class sensor data, though absolute accuracy remains an open challenge.
+    \item For large heterogeneous streams such as Airlines, Lazy VFDT trades a small accuracy penalty for dramatic reductions in computational cost, highlighting its suitability for resource-sensitive deployments.
+\end{itemize}
+
+Beyond accuracy metrics, the thesis contributes a reproducible experimentation framework, dataset conversion tools, aggregated results tables, and automated plots---all of which can be reused or extended for future studies.
+
+\section{Future Work}
+Several directions remain open:
+\begin{itemize}
+    \item \textbf{Adaptive parameter tuning}---automatically adjusting depth or grace period based on observed drift rather than relying on manual presets.
+    \item \textbf{Additional baselines}---comparing Lazy VFDT with Adaptive Random Forests, Leveraging Bagging, or lightweight ensembles of Lazy VFDTs to broaden the empirical picture.
+    \item \textbf{Prequential evaluation}---extending the current holdout-based protocol to fully prequential setups with drift detectors, enabling continuous deployment scenarios.
+    \item \textbf{Hybrid models}---exploring combinations of lazy pruning with small ensembles to preserve accuracy on multi-class streams while retaining efficiency.
+\end{itemize}
+
+These enhancements would further clarify the circumstances under which Lazy VFDT is the preferred choice and how it can be integrated into production stream-processing pipelines.

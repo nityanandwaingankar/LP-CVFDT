@@ -1,0 +1,151 @@
+%-----------------------------------------------
+%  Engineer's & Master's Thesis Template
+%  Copyleft by Artur M. Brodzki & Piotr Woźniak
+%  Warsaw University of Technology, 2019-2022
+%-----------------------------------------------
+
+\documentclass[
+    bindingoffset=5mm,  % Binding offset
+    footnoteindent=3mm, % Footnote indent
+    hyphenation=true    % Hyphenation turn on/off
+]{src/wut-thesis}
+
+\graphicspath{{tex/img/}} % Katalog z obrazkami.
+\addbibresource{bibliografia.bib} % Plik .bib z bibliografią
+
+%-------------------------------------------------------------
+% Wybór wydziału:
+%  \facultyeiti: Wydział Elektroniki i Technik Informacyjnych
+%  \facultymeil: Wydział Mechaniczny Energetyki i Lotnictwa
+% --
+% Rodzaj pracy: \EngineerThesis, \MasterThesis
+% --
+% Wybór języka: \langpol, \langeng
+%-------------------------------------------------------------
+\facultyeiti    % Wydział Elektroniki i Technik Informacyjnych
+\MasterThesis % Praca inżynierska
+\langeng % Praca w języku polskim
+
+\begin{document}
+
+%------------------
+% Strona tytułowa
+%------------------
+\instytut{Computer Science}
+\kierunek{Computer Science}
+\specjalnosc{Computer Systems and Networks}
+\title{Developing a New Pruning Method for CVFDT: A Study on\\Lazy Pruning in Data Stream Mining}
+\engtitle{Developing a New Pruning Method for CVFDT: A Study on\\Lazy Pruning in Data Stream Mining}
+\poltitle{Opracowanie nowej metody przycinania dla CVFDT:\\badanie leniwego przycinania w eksploracji strumieni danych}
+\author{Nityanand Waingankar}
+\album{336962}
+\promotor{Izabela Zoltowska}
+\date{\the\year}
+\maketitle
+
+%-------------------------------------
+% Streszczenie po polsku dla \langpol
+% English abstract if \langeng is set
+%-------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\abstract
+This thesis evaluates Lazy Very Fast Decision Trees (Lazy VFDT) against Dynamic Weighted Majority for concept-drifting data streams. Lazy VFDT combines Hoeffding-tree growth with lazy pruning at prediction time, aiming to match ensemble accuracy with far lower training and inference cost. Experiments on synthetic drift, Electricity, Gas Sensor, and Airlines streams show that Lazy VFDT often matches or exceeds the baseline on gradual drift with orders-of-magnitude efficiency gains, and remains competitive on harder multi-class streams with modest tuning and scaling.
+\keywords data streams, concept drift, lazy pruning, Hoeffding tree, CVFDT, VFDT, dynamic weighted majority
+
+
+%----------------------------------------
+% Streszczenie po angielsku dla \langpol
+% Polish abstract if \langeng is set
+%----------------------------------------
+\clearpage
+\secondabstract
+Niniejsza praca ocenia Lazy Very Fast Decision Trees (Lazy VFDT) w porównaniu z Dynamic Weighted Majority dla strumieni danych z dryfem koncepcji. Lazy VFDT łączy rozwój drzewa Hoeffding z leniwym przycinaniem w czasie predykcji, aby osiągnąć dokładność zbliżoną do zespołów przy znacznie niższych kosztach uczenia i wnioskowania. Eksperymenty na syntetycznych dryfach, Electricity, Gas Sensor i Airlines pokazują, że Lazy VFDT często dorównuje lub przewyższa bazę na łagodnym dryfie, oferując rzędy wielkości lepszą efektywność, i pozostaje konkurencyjny na trudniejszych wieloklasowych strumieniach przy umiarkowanym strojeniu i skalowaniu.
+\secondkeywords strumienie danych, dryf koncepcji, leniwe przycinanie, drzewo Hoeffding, CVFDT, VFDT, dynamic weighted majority
+
+\pagestyle{plain}
+
+%--------------
+% Spis treści
+%--------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\tableofcontents
+
+%------------
+% Rozdziały
+%------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\pagestyle{headings}
+
+\input{tex/1-wstep}              % Wygodnie jest trzymać każdy rozdział w osobnym pliku.
+\input{tex/2-related-work}       % Umożliwia to również łatwą migrację do nowej wersji szablonu:
+\input{tex/3-methodology}        % zazwyczaj wystarczy podmienić plik src/wut-thesis.cls
+\input{tex/4-experimental-setup}
+\input{tex/5-results}
+\input{tex/6-discussion}
+\input{tex/7-conclusion}
+
+ % Można też pisać rozdziały w jednym pliku.
+
+
+%---------------
+% Bibliografia
+%---------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\printbibliography
+\clearpage
+
+% Wykaz symboli i skrótów.
+% Pamiętaj, żeby posortować symbole alfabetycznie
+% we własnym zakresie. Makro \acronymlist
+% generuje właściwy tytuł sekcji, w zależności od języka.
+% Makro \acronym dodaje skrót/symbol do listy,
+% zapewniając podstawowe formatowanie.
+
+%--------------------------------------
+% Spisy: rysunków, tabel, załączników
+%--------------------------------------
+\pagestyle{plain}
+
+\listoffigurestoc    % Spis rysunków.
+\vspace{1cm}         % vertical space
+\listoftablestoc     % Spis tabel.
+\vspace{1cm}         % vertical space
+\listofappendicestoc % Spis załączników
+
+%-------------
+% Załączniki
+%-------------
+
+% Obrazki i tabele w załącznikach nie trafiają do spisów
+\captionsetup[figure]{list=no}
+\captionsetup[table]{list=no}
+
+% Załącznik 1
+\clearpage
+\appendix{Nazwa załącznika 1}
+\lipsum[1-3]
+\begin{figure}[!h]
+	\centering \includegraphics[width=0.5\linewidth]{logopw2.png}
+	\caption{Obrazek w załączniku.}
+\end{figure}
+\lipsum[4-7]
+
+% Załącznik 2
+\clearpage
+\appendix{Nazwa załącznika 2}
+\lipsum[1-2]
+\begin{table}[!h] \centering
+    \caption{Tabela w załączniku.}
+    \begin{tabular} {| c | c | r |} \hline
+        Kolumna 1       & Kolumna 2 & Liczba \\ \hline\hline
+        cell1           & cell2     & 60     \\ \hline
+        \multicolumn{2}{|r|}{Suma:} & 123,45 \\ \hline
+    \end{tabular}
+\end{table}
+\lipsum[3-4]
+
+% Używając powyższych spisów jako szablonu,
+% możesz dodać również swój własny wykaz,
+% np. spis algorytmów.
+
+\end{document} % Dobranoc.

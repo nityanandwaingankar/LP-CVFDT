@@ -1,0 +1,22 @@
+\cleardoublepage
+\chapter{Discussion}
+\label{chap:discussion}
+
+This chapter synthesises the empirical findings, focusing on the trade-offs between accuracy and efficiency, the impact of preprocessing/tuning, and the practical implications for deploying Lazy VFDT in streaming environments.
+
+\section{Accuracy vs. Efficiency Trade-offs}
+A clear pattern emerges: Lazy VFDT often matches or exceeds DWM accuracy on gradual or moderately noisy streams (Rotating Hyperplane, Electricity), while delivering 1--2 orders of magnitude faster training and significantly lower latency. On more complex multi-class streams (Gas Sensor, Airlines), DWM's ensembles can edge out accuracy, but the computational overhead is substantial. Practitioners must balance the marginal accuracy gains from ensembles against runtime constraints---especially when operating under tight latency budgets or limited compute resources. Lazy VFDT's single-tree architecture is attractive in such scenarios, provided modest tuning is applied.
+
+\section{Impact of Preprocessing and Tuning}
+Preprocessing choices strongly influence outcomes on multi-class, drifting sensors. Per-batch standardisation was essential for Gas Sensor data: without it, both methods performed poorly, but Lazy VFDT suffered more. Deeper trees (higher \texttt{max\_depth}, larger \texttt{grace\_period}) improved accuracy, albeit at the cost of larger node counts. These settings remain interpretable and easy to control, enabling practitioners to trade complexity for accuracy within predictable bounds. Airlines showed the limits of this tuning: even with scaling and deeper trees, Lazy VFDT remained a few points behind DWM, suggesting that additional features or hybrid strategies (e.g., small ensembles of Lazy VFDTs) might be beneficial.
+
+\section{Practical Recommendations}
+\begin{itemize}
+    \item Use default Lazy VFDT settings (depth 6, grace 11, no scaling) for binary streams with gradual drift (e.g., Electricity) to get immediate efficiency gains.
+    \item Apply dataset-aware presets: \texttt{--preset gas --scale-per-batch} for sensor drift, \texttt{--scale --ldt-max-depth 10 --ldt-grace-period 20} for Airlines-like streams.
+    \item Consider ensembles only when accuracy gains justify the heavy training cost---for long-running streams, Lazy VFDT can be retrained or adapted far more frequently.
+    \item Maintain logging (\texttt{results.csv}) and summary scripts to monitor when tuning drifts out of spec; adaptive parameter selection is a promising avenue for future work.
+\end{itemize}
+
+\section{Limitations}
+This study focuses on a single baseline (DWM) and a select set of datasets. While representative, additional baselines (e.g., Adaptive Random Forests) and real-world streams (financial transactions, intrusion detection) would enrich the picture. The current evaluation also uses holdout + streamed test chunks rather than fully prequential evaluation; future work could integrate progressive validation and concept-drift detectors to stress-test Lazy VFDT under continuous deployment. Finally, the accuracy of both models on challenging multi-class streams remains modest---improving feature engineering, scaling strategies, or combining Lazy VFDT with lightweight ensembles could push performance further.

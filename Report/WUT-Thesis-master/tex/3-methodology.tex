@@ -1,0 +1,67 @@
+\cleardoublepage
+\chapter{Methodology}
+\label{chap:methodology}
+
+This chapter describes the design of the Lazy VFDT learner, the Dynamic Weighted Majority (DWM) baseline, the implementation choices made for this thesis, and the preprocessing pipelines used for each dataset.
+
+\section{Lazy Very Fast Decision Tree}
+Lazy VFDT inherits the incremental splitting strategy of Hoeffding trees while deferring pruning decisions until prediction time \cite{domingos2000vfdt}.  Each node stores:
+\begin{itemize}
+    \item split statistics (class counts per attribute) to evaluate splitting using Hoeffding bounds,
+    \item the majority label routed through the node, used for both prediction and lazy pruning,
+    \item pruning statistics tracking how many samples and misclassifications have passed through since the last pruning test.
+\end{itemize}
+
+\subsection{Update Procedure}
+For every incoming instance, the algorithm:
+\begin{enumerate}
+    \item Traverses existing splits to reach a leaf, initialising the root on the first instance.
+    \item Updates class counts at each visited node and refreshes the majority label.
+    \item Every \texttt{grace\_period} instances, evaluates whether the leaf should split by computing information gain for a random subset of attributes, guided by the Hoeffding bound.
+    \item If the best attribute exceeds the Hoeffding threshold, the node splits and initialises children with the current majority label.
+\end{enumerate}
+This approach guarantees logarithmic update time with respect to the number of nodes and permits bounded memory growth.
+
+\subsection{Lazy Pruning During Prediction}
+Traditional Hoeffding trees prune eagerly or rely on change detectors.  Lazy VFDT instead evaluates pruning only when the node is visited during prediction.  Given a test instance (optionally with its true label, as in prequential evaluation), the algorithm:
+\begin{enumerate}
+    \item Walks down the tree following split tests; if a node lacks children, it predicts using the stored majority label.
+    \item Updates pruning statistics (sample count and misclassification count) for each node on the path.
+    \item When the number of samples at a node exceeds a pruning grace period, compares the empirical misclassification rate with a confidence bound derived from the Hoeffding inequality.
+    \item If the misclassification rate is below the bound, collapses the subtree into a leaf by discarding children and setting the node's prediction to its majority label.
+\end{enumerate}
+This ``lazy pruning'' avoids constant restructuring during updates, reducing training cost, while still reacting to drift when stale branches become unreliable.
+
+\section{Dynamic Weighted Majority Baseline}
+DWM maintains an ensemble of experts (decision trees) with weights adjusted according to performance \cite{kolter2007dwm}.  The implementation used here follows the canonical algorithm:
+\begin{itemize}
+    \item New experts are initialised with dummy data and added when the ensemble misclassifies.
+    \item Weights are decayed by a factor \( \beta \) for experts that err on a given instance; experts with weights below \(\theta\) are removed.
+    \item A sliding window buffers the most recent \(w\) instances to retrain experts periodically, providing adaptation to drift.
+\end{itemize}
+Predictions are obtained via weighted voting over all current experts.  While accurate, DWM's training time scales with the number of experts and window size, making it a computationally heavy baseline.
+
+\section{Implementation Details}
+Both models are implemented in Python (NumPy, scikit-learn) with a streaming driver (\texttt{compare\_lazy\_vs\_dwm.py}) that:
+\begin{itemize}
+    \item Streams instances from synthetic generators or preprocessed CSVs, preserving chronological order for real datasets.
+    \item Supports multi-seed evaluation, logging accuracy, training time, per-instance latency, and model size to \texttt{results.csv}.
+    \item Provides dataset-specific presets via command-line flags (e.g., \texttt{--preset gas}, \texttt{--scale-per-batch}).
+\end{itemize}
+Auxiliary tools include \texttt{tools/prepare\_gas\_sensor\_csv.py} for converting libsvm batches to a single CSV, \texttt{tools/summarize\_results.py} for aggregating metrics, and \texttt{tools/plot\_results.py} for generating figures.
+
+\section{Dataset Preprocessing}
+\subsection{Synthetic Rotating Hyperplane}
+Gradual and sudden drift are simulated using a rotating hyperplane generator with tunable drift rate and noise.  Datasets are split into 70\% training (for streaming updates) and 30\% testing (for latency measurement).
+
+\subsection{Electricity}
+The ELEC2 dataset is converted from ARFF to CSV, with byte-prefixes removed from categorical attributes.  Chronological order is preserved; \texttt{date} and \texttt{day} fields are dropped, and the UP/DOWN label is mapped to \{0,1\}.  No additional scaling is applied.
+
+\subsection{Gas Sensor Array Drift}
+Raw batch files (libsvm format) are merged via \texttt{tools/prepare\_gas\_sensor\_csv.py}, producing a CSV with 128 features, batch identifiers, and categorical labels \cite{vergara2012gas}.  To combat sensor calibration drift, features are standardised per batch: a scaler is fit on the training portion of each batch and applied to both train and test subsets belonging to the same batch.
+
+\subsection{Airlines}
+Categorical fields (airline, airport, day-of-week) are one-hot encoded; numerical features are standardised globally.  Chronological order is maintained with a 70/30 split.  Given the dataset's scale and heterogeneity, deeper Lazy VFDT settings (\texttt{max\_depth=10}, \texttt{grace\_period=20}) and a larger DWM window are used to stabilise accuracy.
+
+\section{Summary}
+This methodology provides a controlled environment for comparing Lazy VFDT against DWM across diverse drift scenarios. The next chapter details the experimental protocol, metrics, evaluation flow, and tooling that ensures replicable results.
